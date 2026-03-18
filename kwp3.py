@@ -1,17 +1,23 @@
 import requests
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# Try Streamlit secrets first (for deployment)
+try:
+    import streamlit as st
+    DEVELOPER_TOKEN = st.secrets["DEVELOPER_TOKEN"]
+    CUSTOMER_ID = st.secrets["CUSTOMER_ID"]
+    MCC_ID = st.secrets.get("MCC_ID", None)
+except:
+    # Fallback to .env (for local)
+    from dotenv import load_dotenv
+    load_dotenv()
 
-# 🔐 ENV VARIABLES
-ACCESS_TOKEN = None  # will pass dynamically
-DEVELOPER_TOKEN = os.getenv("DEVELOPER_TOKEN")
-CUSTOMER_ID = os.getenv("CUSTOMER_ID")  # Ads account ID
-MCC_ID = os.getenv("MCC_ID")  # optional
+    DEVELOPER_TOKEN = os.getenv("DEVELOPER_TOKEN")
+    CUSTOMER_ID = os.getenv("CUSTOMER_ID")
+    MCC_ID = os.getenv("MCC_ID")
+
 
 BASE_URL = "https://googleads.googleapis.com/v16"
-
 
 def fetch_keyword_ideas(access_token, keyword, geo_target, language):
     url = f"{BASE_URL}/customers/{CUSTOMER_ID}:generateKeywordIdeas"

@@ -1,12 +1,21 @@
-from dotenv import load_dotenv
 import os
 import requests
 
-load_dotenv()
+# Try Streamlit secrets first (for deployment)
+try:
+    import streamlit as st
+    CLIENT_ID = st.secrets["CLIENT_ID"]
+    CLIENT_SECRET = st.secrets["CLIENT_SECRET"]
+    REFRESH_TOKEN = st.secrets["REFRESH_TOKEN"]
+except:
+    # Fallback to .env (for local)
+    from dotenv import load_dotenv
+    load_dotenv()
 
-CLIENT_ID = os.getenv("CLIENT_ID")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET")
-REFRESH_TOKEN = os.getenv("REFRESH_TOKEN")
+    CLIENT_ID = os.getenv("CLIENT_ID")
+    CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+    REFRESH_TOKEN = os.getenv("REFRESH_TOKEN")
+
 
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 
