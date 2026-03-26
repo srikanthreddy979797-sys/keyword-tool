@@ -1,3 +1,6 @@
 .env
 __pycache__/
 
+.env
+sheets_credentials.json
+sheets_credentials.json
