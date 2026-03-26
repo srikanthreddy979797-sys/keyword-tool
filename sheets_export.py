@@ -10,12 +10,9 @@ SCOPES = [
 ]
 
 def get_sheets_client():
-    import streamlit as st
-    import json
-
-    # Use Streamlit Secrets in cloud, fall back to local file
     try:
-        creds_dict = dict(st.secrets["SHEETS_CREDENTIALS"])
+        import streamlit as st
+        creds_dict = dict(st.secrets["sheets_credentials"])
         creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
         creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
     except Exception:
