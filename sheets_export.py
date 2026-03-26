@@ -10,10 +10,17 @@ SCOPES = [
 ]
 
 def get_sheets_client():
-    creds = Credentials.from_service_account_file(
-        "sheets_credentials.json",
-        scopes=SCOPES
-    )
+    import streamlit as st
+    import json
+
+    # Use Streamlit Secrets in cloud, fall back to local file
+    try:
+        creds_dict = dict(st.secrets["SHEETS_CREDENTIALS"])
+        creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
+        creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
+    except Exception:
+        creds = Credentials.from_service_account_file(
+            "sheets_credentials.json", scopes=SCOPES)
     return gspread.authorize(creds)
 
 def export_to_sheets(df: pd.DataFrame, seed_keyword: str) -> str:

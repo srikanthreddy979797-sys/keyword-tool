@@ -9,6 +9,19 @@ from sheets_export import export_to_sheets
 
 load_dotenv()
 
+# Load from Streamlit Secrets if running in cloud
+try:
+    import streamlit as st
+    if hasattr(st, 'secrets'):
+        os.environ.setdefault("GROQ_API_KEY",
+            st.secrets.get("GROQ_API_KEY", ""))
+        os.environ.setdefault("SHEETS_MASTER_ID",
+            st.secrets.get("SHEETS_MASTER_ID", ""))
+        os.environ.setdefault("PERFORMANCE_SHEET_ID",
+            st.secrets.get("PERFORMANCE_SHEET_ID", ""))
+except Exception:
+    pass
+
 st.set_page_config(page_title="Keyword Intelligence Tool", page_icon="🚀", layout="wide")
 
 # ------------------ SESSION STATE ------------------
