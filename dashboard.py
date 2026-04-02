@@ -166,9 +166,9 @@ if st.session_state["data"]:
         styled = display_df.style \
             .map(color_intent,
                       subset=["intent"] if "intent" in display_cols else []) \
-            .applymap(color_score,
+            .map(color_score,
                       subset=["opportunity_score"] if "opportunity_score" in display_cols else []) \
-            .applymap(color_competition,
+            .map(color_competition,
                       subset=["competition"] if "competition" in display_cols else [])
 
         st.dataframe(styled, use_container_width=True, height=500)
