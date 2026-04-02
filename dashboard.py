@@ -164,7 +164,7 @@ if st.session_state["data"]:
             return colors.get(val, "")
 
         styled = display_df.style \
-            .applymap(color_intent,
+            .map(color_intent,
                       subset=["intent"] if "intent" in display_cols else []) \
             .applymap(color_score,
                       subset=["opportunity_score"] if "opportunity_score" in display_cols else []) \
